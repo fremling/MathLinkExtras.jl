@@ -7,6 +7,11 @@ git-tree-sha1 = "456465e96317c706dc2e782f441bff3053ff843e"
 uuid = "18c93696-a329-5786-9845-8443133fa0b4"
 version = "0.3.1"
 
+[[Primes]]
+git-tree-sha1 = "afccf037da52fa596223e5a0e331ff752e0e845c"
+uuid = "27ebfcd6-29c5-5fa9-bf4b-fb8fc14df3ae"
+version = "0.5.0"
+
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"

@@ -1,5 +1,5 @@
 module MathLinkExtras
 
-greet() = print("Hello World!")
+include("MathLinkHeader.jl")
 
 end # module

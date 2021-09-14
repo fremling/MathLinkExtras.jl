@@ -9,6 +9,8 @@ import Base.zero
 #### + ####
 
 
+####If the flag for greedy evaluation does not exist
+## create it and set it to false.
 if !@isdefined(MLGreedyEval)
     MLGreedyEval=false
 end
@@ -21,6 +23,8 @@ function MLeval(x::MLTypes)
         return x
     end
 end
+
+export set_GreedyEval
 
 function set_GreedyEval(x::Bool)
     global MLGreedyEval

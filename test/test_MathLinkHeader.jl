@@ -3,18 +3,35 @@ using Test
 using MathLink
 using MathLinkExtras
 
+
+###The operations mentioned in the README
+sin1 = W"Sin"(1.0)
+@test sin1 == W"Sin"(1.0)
+
+sinx = W"Sin"(W"x")
+@test sinx == W"Sin"(W"x")
+@test W`Sin[1]` == W"Sin"(1)
+
+@test weval(sin1) == 0.8414709848078965
+
+@test weval(sinx) == W"Sin"(W"x")
+
+@test weval(W"Integrate"(sinx, (W"x", 0, 1))) == W"Plus"(1, W"Times"(-1, W"Cos"(1)))
+
+
+
 ###Testing turning on and turning of the greedy evaluation
 ###The default is "false"
 @test W"a"+W"b" == W"Plus"(W"a",W"b")
 @test W"a"+W"a" == W"Plus"(W"a",W"a")
 @test W"a"-W"a" == W"Plus"(W"a",W"Minus"(W"a"))
-MathLinkExtras.set_GreedyEval(true)
+set_GreedyEval(true)
 @test W"a"+W"b" == W"Plus"(W"a",W"b")
 @test W"a"+W"a" == W"Times"(2,W"a")
 @test W"a"-W"a" == 0
-MathLinkExtras.set_GreedyEval(false)
+set_GreedyEval(false)
 @test W"b"+W"b" == W"Plus"(W"b",W"b")
-MathLinkExtras.set_GreedyEval(true)
+set_GreedyEval(true)
 
 #### Test Rationals parts
 @test (4//5)*W"a" == weval(W`4 a/5`)
@@ -127,7 +144,7 @@ P14 * Mat* P14
 
 
 
-MathLinkExtras.set_GreedyEval(false)
+set_GreedyEval(false)
 
 using Primes
 

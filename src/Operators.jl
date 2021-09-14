@@ -22,6 +22,12 @@ function MLeval(x::MLTypes)
     end
 end
 
+function set_GreedyEval(x::Bool)
+    global MLGreedyEval
+    MLGreedyEval=x
+end
+
+
 ###A special case of weval on rationals that was not handled
 zero(x::MLTypes)=0
 

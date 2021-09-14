@@ -1,23 +1,20 @@
 
 using Test
 using MathLink
-
-MLGreedyEval=false
-include("../src/MathLinkExtras.jl")
+using MathLinkExtras
 
 ###Testing turning on and turning of the greedy evaluation
 ###The default is "false"
-
 @test W"a"+W"b" == W"Plus"(W"a",W"b")
 @test W"a"+W"a" == W"Plus"(W"a",W"a")
 @test W"a"-W"a" == W"Plus"(W"a",W"Minus"(W"a"))
-MLGreedyEval=true
+MathLinkExtras.set_GreedyEval(true)
 @test W"a"+W"b" == W"Plus"(W"a",W"b")
 @test W"a"+W"a" == W"Times"(2,W"a")
 @test W"a"-W"a" == 0
-MLGreedyEval=false
+MathLinkExtras.set_GreedyEval(false)
 @test W"b"+W"b" == W"Plus"(W"b",W"b")
-MLGreedyEval=true
+MathLinkExtras.set_GreedyEval(true)
 
 #### Test Rationals parts
 @test (4//5)*W"a" == weval(W`4 a/5`)
@@ -130,8 +127,7 @@ P14 * Mat* P14
 
 
 
-
-MLGreedyEval=false
+MathLinkExtras.set_GreedyEval(false)
 
 using Primes
 

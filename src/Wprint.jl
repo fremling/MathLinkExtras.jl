@@ -10,6 +10,7 @@ end
 ###Adda function that prints the form back to Mathematica Input-language
 
 W2Mstr(x::Number) = "$x"
+W2Mstr(z::Complex) = W2Mstr(WComplex(z))
 W2Mstr(x::Rational) = "($(x.num)/$(x.den))"
 function W2Mstr(x::Array)
     Dim = length(size(x))

@@ -19,11 +19,6 @@ sinx = W"Sin"(W"x")
 @test weval(W"Integrate"(sinx, (W"x", 0, 1))) == W"Plus"(1, W"Times"(-1, W"Cos"(1)))
 
 
-#####Testing that complex nubmers can be put in weval
-@test weval(im+2) == W`I+2`
-@test weval(im*2) == W`I*2`
-@test weval(im) == W`I`
-
 
 ###Testing turning on and turning of the greedy evaluation
 ###The default is "false"
@@ -60,6 +55,10 @@ set_GreedyEval(true)
 @test +W"b" == W"b"
 @test +W`a+b` == W`a+b`
 
+#####Testing that complex nubmers can be put in weval
+@test weval(im+2) == weval(W`I+2`)
+@test weval(im*2) == weval(W`I*2`)
+@test weval(im) == weval(W`I`)
 
 
 @test (3*im)*(2*im)*W"a" == weval(W`-6 a`)

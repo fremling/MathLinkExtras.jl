@@ -100,4 +100,5 @@ end
 ###Added a function to put that handles rationals
 import MathLink.put
 MathLink.put(x::MathLink.Link,r::Rational)=MathLink.put(x,WRational(r))
+MathLink.put(x::MathLink.Link,z::Complex)=MathLink.put(x,WComplex(z))
 

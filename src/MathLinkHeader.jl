@@ -1,103 +1,3 @@
-using MathLink
-
-if !@isdefined(TabLevel)
-    TabLevel = ""
-end
-println(TabLevel*"Open MathLinkHeader.jl")
-TabLevel=TabLevel*"    "
-
-import Base.+
-import Base.*
-import Base.-
-import Base./
-import Base.//
-import Base.^
-import Base.zero
-#### + ####
-
-MLTypes=Union{MathLink.WExpr,MathLink.WSymbol}
-
-
-if !@isdefined(MLGreedyEval)
-    MLGreedyEval=false
-end
-
-function MLeval(x::MLTypes)
-    #println("MLGreedyEval=$MLGreedyEval")
-    if MLGreedyEval
-        return weval(x)
-    else
-        return x
-    end
-end
-
-###A special case of weval on rationals that was not handled
-zero(x::MLTypes)=0
-
-+(a::MLTypes)=MLeval(a)
-+(a::MLTypes,b::MLTypes)=MLeval(W"Plus"(a,b))
-+(a::MLTypes,b::Number)=MLeval(W"Plus"(a,b))
-+(a::Number,b::MLTypes)=MLeval(W"Plus"(a,b))
-+(a::MLTypes,b::Complex)=a+WComplex(b)
-+(a::Complex,b::MLTypes)=WComplex(a)+b
-#### - ####
--(a::MLTypes)=MLeval(W"Minus"(a))
--(a::MLTypes,b::MLTypes)=MLeval(W"Plus"(a,W"Minus"(b)))
--(a::MLTypes,b::Number)=MLeval(W"Plus"(a,W"Minus"(b)))
--(a::Number,b::MLTypes)=MLeval(W"Plus"(a,W"Minus"(b)))
--(a::MLTypes,b::Complex)=a-WComplex(b)
--(a::Complex,b::MLTypes)=WComplex(a)-b
-
-
-#### * ####
-*(a::MLTypes,b::MLTypes)=MLeval(W"Times"(a,b))
-*(a::MLTypes,b::Number)=MLeval(W"Times"(a,b))
-*(a::Number,b::MLTypes)=MLeval(W"Times"(a,b))
-*(a::MLTypes,b::Rational)=a*WRational(b)
-*(a::Rational,b::MLTypes)=WRational(a)*b
-*(a::MLTypes,b::Complex)=a*WComplex(b)
-*(a::Complex,b::MLTypes)=WComplex(a)*b
-
-
-#### // ####
-//(a::MLTypes,b::MLTypes)=MLeval(W"Times"(a, W"Power"(b, -1)))
-//(a::MLTypes,b::Number)=MLeval(W"Times"(a, W"Power"(b, -1)))
-//(a::Number,b::MLTypes)=MLeval(W"Times"(a, W"Power"(b, -1)))
-//(a::MLTypes,b::Rational)=a//WRational(b)
-//(a::Rational,b::MLTypes,)=WRational(a)//b
-//(a::MLTypes,b::Complex)=a//WComplex(b)
-//(a::Complex,b::MLTypes,)=WComplex(a)//b
-                               
-
-#### / ####
-/(a::MLTypes,b::MLTypes)=a//b
-/(a::MLTypes,b::Number)=a//b
-/(a::Number,b::MLTypes)=a//b
-
-
-
-
-#### ^ ####
-^(a::MLTypes,b::MLTypes)=MLeval(W"Power"(a,b))
-^(a::MLTypes,b::Number)=MLeval(W"Power"(a,b))
-^(a::Number,b::MLTypes)=MLeval(W"Power"(a,b))
-
-WRational(x::Rational) = W"Times"(x.num, W"Power"(x.den, -1))
-WComplex(x::Complex) = W"Complex"(x.re,x.im)
-function WComplex(x::Complex{Bool})
-    if x.re
-        re = 1
-    else
-        re = 0
-    end
-    if x.im
-        im = 1
-    else
-        im = 0
-    end
-    return W"Complex"(re,im)
-end
-
 
 
 function Wprint(WExpr)
@@ -207,16 +107,6 @@ function W2Mstr_COMPLEX(x::Union{Tuple,Array})
 end
 
 
-
-
-###Added a function to put that handles rationals
-import MathLink.put
-MathLink.put(x::MathLink.Link,r::Rational)=MathLink.put(x,WRational(r))
-###Perform a prime factorization to keep large numbers from overflowing to int128
-MathLink.put(x::MathLink.Link,i128::Int128)=MathLink.put(x,WPrimeFac(i128))
-
-
-
 using Primes
 function WPrimeFac(n::Integer)
     ###Perform a prime factorization
@@ -263,8 +153,3 @@ function WtoWolframStr(x::MathLink.WExpr)
     return "$x"
 end
 
-
-
-
-TabLevel=TabLevel[1:end-4]
-println(TabLevel*"Close MathLinkHeader.jl")

@@ -6,3 +6,9 @@ version = "0.1.0"
 [deps]
 MathLink = "18c93696-a329-5786-9845-8443133fa0b4"
 Primes = "27ebfcd6-29c5-5fa9-bf4b-fb8fc14df3ae"
+
+
+[compat]
+Julia = "1"
+MathLink = "0.3"
+Julia = "0.5"

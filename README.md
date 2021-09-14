@@ -108,7 +108,7 @@ Sometimes one wants to be able to read the Julia MathLink expressions back into 
 julia> W2Mstr(W`x`)
 "x"
 
-julia> W2Mstr(W`Sin[x]`)
+julia> W2Mstr(W"Sin"(W"x"))
 "Sin[x]"
 
 julia> W2Mstr(weval(W`a + c + v`))
@@ -120,7 +120,7 @@ julia> W2Mstr(weval(W`a^(b+c)`))
 julia> W2Mstr(weval(W`e+a^(b+c)`))
 "((a^(b + c)) + e)"
 
-julia> W2Mstr(weval(W`a + c + v + Sin[2 + x + Cos[q]]`))
+julia> W2Mstr(W"a"+W"c"+W"v"+W"Sin"(2 +W"x" + W"Cos"(W"q")))
 "(a + c + v + Sin[(2 + x + Cos[q])])"
 
 julia> W2Mstr(im*2)

@@ -70,6 +70,7 @@ set_GreedyEval(true)
 
 ###Test of a naive MathLink to Mathematica converter function (to resuts can be copied into mathematica directly"
 @test W2Mstr(W`x`) == "x"
+@test W2Mstr(W"Sin"(W"x")) == "Sin[x]"
 @test W2Mstr(W`Sin[x]`) == "Sin[x]"
 @test W2Mstr(weval(W`a + c + v`)) == "(a + c + v)"
 @test W2Mstr(weval(W`a + c*b + v`)) == "(a + (b*c) + v)"
@@ -78,6 +79,8 @@ set_GreedyEval(true)
 @test W2Mstr(weval(W`a^2`)) == "(a^2)"
 @test W2Mstr(weval(W`e+a^(b+c)`)) == "((a^(b + c)) + e)"
 @test W2Mstr(weval(W`a + c + v + Sin[2 + x + Cos[q]]`)) == "(a + c + v + Sin[(2 + x + Cos[q])])"
+@test W2Mstr(W"a"+W"c"+W"v"+W"Sin"(2 +W"x" + W"Cos"(W"q"))) == "(a + c + v + Sin[(2 + x + Cos[q])])"
+
 
 @test W2Mstr(weval(W`2*I`)) == "(2*I)"
 @test W2Mstr(weval(W`2/I`)) == "(-2*I)"

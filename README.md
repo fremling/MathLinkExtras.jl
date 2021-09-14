@@ -75,7 +75,7 @@ julia> W"a"-W"a"
 ```
 
 
-##Fractions and Complex numbers
+## Fractions and Complex numbers
  
 The package also contains extentions to handle fractions
 

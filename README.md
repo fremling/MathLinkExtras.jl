@@ -73,3 +73,66 @@ W"Times"(2,W"a")
 julia> W"a"-W"a"
 0
 ```
+
+
+##Fractions and Complex numbers
+ 
+The package also contains extentions to handle fractions
+
+```julia
+julia> weval(1//2)
+W"Rational"(1, 2)
+
+julia> (4//5)*W"a"
+W"Times"(W"Rational"(4, 5), W"a")
+
+julia> W"a"/(4//5)
+W"Times"(W"Rational"(5, 4), W"a")
+```
+
+and complex numbers
+
+```julia
+julia> im*W"a"
+W"Times"(W"Complex"(0, 1), W"a")
+
+julia> im*(im*W"c")
+W"Times"(-1, W"c")
+```
+
+
+## W2Mstr
+Sometimes one wants to be able to read the Julia MathLink expressions back into mathametica. For that purpouse `W2Mstr` is also supplied. This implementation is currently quite defensive with the usage of paranthesis, which gives a more verbose that nececarry result. Here are a few examples
+
+```julia
+julia> W2Mstr(W`x`)
+"x"
+
+julia> W2Mstr(W`Sin[x]`)
+"Sin[x]"
+
+julia> W2Mstr(weval(W`a + c + v`))
+"(a + c + v)"
+
+julia> W2Mstr(weval(W`a^(b+c)`))
+"(a^(b + c))"
+
+julia> W2Mstr(weval(W`e+a^(b+c)`))
+"((a^(b + c)) + e)"
+
+julia> W2Mstr(weval(W`a + c + v + Sin[2 + x + Cos[q]]`))
+"(a + c + v + Sin[(2 + x + Cos[q])])"
+
+julia> W2Mstr(im*2)
+"(2*I)"
+
+julia> W2Mstr(weval(W"Complex"(W"c",W"b")))
+"(c+b*I)"
+
+julia> W2Mstr(W"c"+im*W"b")
+"(((1*I)*b) + c)"
+
+julia> W2Mstr(W`b/(c^(a+c))`)
+"(b*((c^(a + c))^-1))"
+
+```julia

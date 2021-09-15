@@ -102,3 +102,7 @@ import MathLink.put
 MathLink.put(x::MathLink.Link,r::Rational)=MathLink.put(x,WRational(r))
 MathLink.put(x::MathLink.Link,z::Complex)=MathLink.put(x,WComplex(z))
 
+
+###Morf Int128 into BigInt to plug a hole where int128 was not implemented in MathLink.
+MathLink.put(x::MathLink.Link,i128::Int128)=MathLink.put(x,big(i128))
+

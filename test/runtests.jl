@@ -155,8 +155,6 @@ P14 * Mat* P14
 
 set_GreedyEval(false)
 
-using Primes
-
 ###These tets try a workaround for then the integer is larger than int64.
 A0=3^3 * 199 * 3797 * Int128(372928745438657)
 A=7608224128671509719617
@@ -172,8 +170,3 @@ AB2=weval(W"a"+A)
 @test weval(AB1 - W"a").value == "$A"
 @test weval(AB1 - W"a"+B).value == "$AB"
 
-@test WInt64Reduce(372928745) == 372928745
-@test WInt64Reduce(-28745) == -28745
-
-@test WInt64Reduce(10880297241027479779) == W"Plus"(1656925204172703972, W"Times"(1, 9223372036854775807))
-@test WInt64Reduce(210880297241027479779) == W"Plus"(7966112430222412025, W"Times"(22, 9223372036854775807))

@@ -25,9 +25,9 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [[MathLink]]
 deps = ["Libdl", "Printf"]
-git-tree-sha1 = "456465e96317c706dc2e782f441bff3053ff843e"
+git-tree-sha1 = "653c35640db592dfddd8c46dbb43d561cbef7862"
 uuid = "18c93696-a329-5786-9845-8443133fa0b4"
-version = "0.3.1"
+version = "0.3.2"
 
 [[Printf]]
 deps = ["Unicode"]

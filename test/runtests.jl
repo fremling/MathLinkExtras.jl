@@ -170,7 +170,7 @@ end
 
 @testset "Int128" begin
     set_GreedyEval(false)
-    ###These tets try a workaround for then the integer is larger than int64.
+    ###These tets check that things work when the integer is larger than int64.
     A0=3^3 * 199 * 3797 * Int128(372928745438657)
     A=7608224128671509719617
     @test A0 == A

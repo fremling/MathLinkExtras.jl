@@ -1,6 +1,6 @@
 # MathLinkExtras
-Package that adds extra functionality on top the of [MathLink](https://github.com/JuliaInterop/MathLink.jl) package, which allows Julia to talk to Mathematica.
-
+The package adds extra functionality on top of the [MathLink](https://github.com/JuliaInterop/MathLink.jl) package, allowing Julia to talk to Mathematica.
+For [jupyter](https://jupyter.org/) notebooks, the text/latex MIME-type is implemented. 
 
 ## Usage MathLink
 MathLinkExtras is desiged to implement the basic algebraic operation that one expects to excist such as +,-,*,/ and ^.
@@ -100,9 +100,27 @@ julia> im*(im*W"c")
 W"Times"(-1, W"c")
 ```
 
+## W2Tex - Latex conversion
 
-## W2Mstr
-Sometimes one wants to be able to read the Julia MathLink expressions back into mathametica. For that purpouse `W2Mstr` is also supplied. This implementation is currently quite defensive with the usage of paranthesis, which gives a more verbose that nececarry result. Here are a few examples
+```julia
+julia> W2Tex(W`(a+b)^(b+x)`)
+"(a+b)^{b+x}"
+
+julia> W2Tex(W`a`)
+"a"
+
+julia> W2Tex(W`ab`)
+"\\text{ab}"
+
+julia> W2Tex(W`ab*cd`)
+"\\text{ab} \\text{cd}"
+
+julia> W2Tex(weval(fill(W"a",2,3)))
+"\\left(\n\\begin{array}{ccc}\n a & a & a \\\\\n a & a & a \\\\\n\\end{array}\n\\right)"
+```
+
+## W2Mstr - Mathematica conversion
+Sometimes one wants to be able to read the Julia MathLink expressions back into Mathematica. For that purpose, `W2Mstr` is also supplied. This implementation is currently quite defensive with parentheses, which gives a more verbose output than necessary. Here are a few examples
 
 ```julia
 julia> W2Mstr(W`x`)

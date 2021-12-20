@@ -185,3 +185,16 @@ end
     @test weval(AB1 - W"a").value == "$A"
     @test weval(AB1 - W"a"+B).value == "$AB"
 end
+
+
+@testset "W2Tex - LaTex conversion" begin
+    @test W2Tex(W`(a+b)^(b+x)`) == "(a+b)^{b+x}"
+    @test W2Tex(W`a`) == "a"
+    @test W2Tex(W`ab`) == "\\text{ab}"
+    @test W2Tex(W`ab*cd`) == "\\text{ab} \\text{cd}"
+
+    ###Testing that MIME form exists for the text/latex option of show.
+    @test show(stdout,MIME"text/latex"(),W"a")  == nothing
+    @test show(stdout,MIME"text/latex"(),W`a+b`)  == nothing
+end
+

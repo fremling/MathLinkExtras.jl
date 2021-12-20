@@ -1,5 +1,5 @@
 
-export Wprint, W2Mstr, WInt64Reduce
+export Wprint, W2Mstr, W2Tex
 
 function Wprint(WExpr)
     weval(W"Print"(WExpr))
@@ -108,3 +108,13 @@ function W2Mstr_COMPLEX(x::Union{Tuple,Array})
     end
 end
 
+
+
+#### Code to produce LaTex strings
+W2Tex(x::MLTypes) = weval(W`ToString@TeXForm[#]&`(x))
+
+#### Allow latex string to be shown when supported. Relevant for the jupyter notebook. 
+import Base.show
+Base.show(io,::MIME"text/latex",x::MLTypes) = print(io,"\$"*W2Tex(x)*"\$")
+#Base.show(io,::MIME"text/latex",x::MathLink.WExpr) = print(io,"\$"*W2Tex(x)*"\$")
+#Base.show(io,::MIME"text/latex",x::MathLink.WSymbol) = print(io,"\$"*W2Tex(x)*"\$")

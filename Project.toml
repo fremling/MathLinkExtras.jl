@@ -1,7 +1,7 @@
 name = "MathLinkExtras"
 uuid = "319bc7fa-14a0-11ec-21e1-6160fff0bbd8"
 authors = ["Mikael Fremling <micke.fremling@gmail.com>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 MathLink = "18c93696-a329-5786-9845-8443133fa0b4"

@@ -1,5 +1,6 @@
 
 export Wprint, W2Mstr, W2Tex
+export HasGraphicsHead, HasRecursiveGraphicsHead
 
 function Wprint(WExpr)
     weval(W"Print"(WExpr))
@@ -113,8 +114,28 @@ end
 #### Code to produce LaTex strings
 W2Tex(x::MLTypes) = weval(W`ToString@TeXForm[#]&`(x))
 
-#### Allow latex string to be shown when supported. Relevant for the jupyter notebook. 
-function HasGrapicsHead(w::MathLink.WExpr)
+#### Allow latex string to be shown when supported. Relevant for the jupyter notebook.
+
+HasRecursiveGraphicsHead(w::MathLink.WSymbol) = false
+
+function HasRecursiveGraphicsHead(w::MathLink.WExpr)
+    if HasGraphicsHead(w)
+        return true
+    end
+    for arg in w.args
+        if typeof(arg) == MathLink.WExpr
+            ##Only check for MathLink Expressions
+            if HasRecursiveGraphicsHead(arg)
+                return true
+            end
+        end
+    end
+    return false
+end
+
+HasGraphicsHead(w::MathLink.WSymbol) = false
+        
+function HasGraphicsHead(w::MathLink.WExpr)
     HeadString = w.head.name
     GraphicsHeadsList = ["Graphics","GeoGraphics"]
     ###Check for names not based on ending on Plot or Plot3D
@@ -143,7 +164,7 @@ Base.show(io,::MIME"text/latex",x::MathLink.WSymbol) = print(io,"\$"*W2Tex(x)*"\
 
 import Base.Multimedia.showable
 function Base.Multimedia.showable(::MIME"text/latex", w::MathLink.WExpr)
-    if HasGrapicsHead(w)
+    if HasRecursiveGraphicsHead(w)
         return false
     else
         return true

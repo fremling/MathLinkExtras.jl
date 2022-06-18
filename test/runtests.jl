@@ -166,6 +166,24 @@ end
     P14 * Mat* P14
 end
 
+@testset  "Find Graphiscs" begin
+    @test HasGraphicsHead(W`Plot[x,{x,0,1}]`)
+    @test HasGraphicsHead(W`ListPlot[x,{x,0,1}]`)
+    @test HasGraphicsHead(W`ListLinePlot3D[x,{x,0,1}]`)
+    @test HasGraphicsHead(W`Plot3D[x,{x,0,1}]`)
+    @test !HasGraphicsHead(W"a"+W"b")
+    @test HasGraphicsHead(weval(W`Plot[x,{x,0,1}]`))
+    @test !HasGraphicsHead(W`{Plot[x,{x,0,1}],Plot[x^2,{x,0,1}]}`)
+    @test !HasGraphicsHead(weval(W`{Plot[x,{x,0,1}],Plot[x^2,{x,0,1}]}`))
+
+    @test !HasRecursiveGraphicsHead(W`{2,a+v,{4+d}}`)
+    @test HasRecursiveGraphicsHead(W`Plot[x,{x,0,1}]`)
+    @test HasRecursiveGraphicsHead(W`{2,Plot[x^2,{x,0,1}]}`)
+    @test HasRecursiveGraphicsHead(W`{a+b,Plot[x^2,{x,0,1}]}`)
+    @test HasRecursiveGraphicsHead(W`{Plot[x,{x,0,1}],Plot[x^2,{x,0,1}]}`)
+    @test HasRecursiveGraphicsHead(W`{1,{Plot[x,{x,0,1}],Plot[x^2,{x,0,1}]}}`)
+    @test HasRecursiveGraphicsHead(weval(W`{Plot[x,{x,0,1}],Plot[x^2,{x,0,1}]}`))
+end
     
 
 @testset "Int128" begin

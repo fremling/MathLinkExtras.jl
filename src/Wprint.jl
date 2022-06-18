@@ -114,7 +114,46 @@ end
 W2Tex(x::MLTypes) = weval(W`ToString@TeXForm[#]&`(x))
 
 #### Allow latex string to be shown when supported. Relevant for the jupyter notebook. 
+function HasGrapicsHead(w::MathLink.WExpr)
+    HeadString = w.head.name
+    GraphicsHeadsList = ["Graphics","GeoGraphics"]
+    ###Check for names not based on ending on Plot or Plot3D
+    if HeadString in GraphicsHeadsList
+        return  true
+    end
+
+    ###Check if name ends with Plot or Plot3D
+    ##Check the number of characters is long enough for Plot
+    if length(HeadString) >= 4  
+        if HeadString[end-3:end] == "Plot"
+            return true
+        end
+    end
+    ##Check the number of characters is long enough for Plot3D
+    if length(HeadString) >= 6
+        if HeadString[end-5:end] == "Plot3D"
+            return true
+        end
+    end
+    return false
+end
+
 import Base.show
-Base.show(io,::MIME"text/latex",x::MLTypes) = print(io,"\$"*W2Tex(x)*"\$")
-#Base.show(io,::MIME"text/latex",x::MathLink.WExpr) = print(io,"\$"*W2Tex(x)*"\$")
-#Base.show(io,::MIME"text/latex",x::MathLink.WSymbol) = print(io,"\$"*W2Tex(x)*"\$")
+Base.show(io,::MIME"text/latex",x::MathLink.WSymbol) = print(io,"\$"*W2Tex(x)*"\$")
+
+import Base.Multimedia.showable
+function Base.Multimedia.showable(::MIME"text/latex", w::MathLink.WExpr)
+    if HasGrapicsHead(w)
+        return false
+    else
+        return true
+    end
+end
+function Base.show(io,::MIME"text/latex",x::MathLink.WExpr)
+    print(io,"\$"*W2Tex(x)*"\$")
+end
+
+#Base.show(io,::MIME"text/latex",x::MLTypes) = print(io,"\$"*W2Tex(x)*"\$")
+
+
+

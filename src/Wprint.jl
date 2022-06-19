@@ -133,29 +133,30 @@ function HasRecursiveGraphicsHead(w::MathLink.WExpr)
     return false
 end
 
+
+
+function HeadsEndsWith(HeadString,Target)
+    ###Check if name ends with $Target
+    if length(HeadString) >= length(Target)  
+        return  HeadString[end-(length(Target)-1):end] == Target
+    end
+    return false
+end
+
 HasGraphicsHead(w::MathLink.WSymbol) = false
         
 function HasGraphicsHead(w::MathLink.WExpr)
     HeadString = w.head.name
-    GraphicsHeadsList = ["Graphics","GeoGraphics"]
+    GraphicsHeadsList = ["Graphics","GeoGraphics","Graphics3D","Legended"]
     ###Check for names not based on ending on Plot or Plot3D
     if HeadString in GraphicsHeadsList
         return  true
     end
 
-    ###Check if name ends with Plot or Plot3D
-    ##Check the number of characters is long enough for Plot
-    if length(HeadString) >= 4  
-        if HeadString[end-3:end] == "Plot"
-            return true
-        end
-    end
-    ##Check the number of characters is long enough for Plot3D
-    if length(HeadString) >= 6
-        if HeadString[end-5:end] == "Plot3D"
-            return true
-        end
-    end
+    HeadsEndsWith(HeadString,"Plot") && return true
+    HeadsEndsWith(HeadString,"Chart") && return true
+    HeadsEndsWith(HeadString,"Plot3D") && return true
+    HeadsEndsWith(HeadString,"Chart3D") && return true
     return false
 end
 

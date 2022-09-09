@@ -1,4 +1,4 @@
-# MathLinkExtras is Deprecated and all functionality has moved into [MathLink](https://github.com/JuliaInterop/MathLink.jl) #
+# MathLinkExtras is Deprecated and all functionality has moved into [MathLink](https://github.com/JuliaInterop/MathLink.jl) v0.5.0 #
 
 # MathLinkExtras
 The package adds extra functionality on top of the [MathLink](https://github.com/JuliaInterop/MathLink.jl) package, allowing Julia to talk to Mathematica.

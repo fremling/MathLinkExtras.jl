@@ -1,3 +1,5 @@
+# MathLinkExtras is Deprecated and all functionality has moved into [MathLink](https://github.com/JuliaInterop/MathLink.jl) #
+
 # MathLinkExtras
 The package adds extra functionality on top of the [MathLink](https://github.com/JuliaInterop/MathLink.jl) package, allowing Julia to talk to Mathematica.
 For [jupyter](https://jupyter.org/) notebooks, the text/latex MIME-type is implemented. 
